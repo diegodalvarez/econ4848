@@ -1,2 +1,2 @@
-# econ4848
-Applied Econometrics
+# Applied Econometrics Notes
+
