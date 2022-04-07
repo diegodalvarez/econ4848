@@ -9,11 +9,22 @@ accept_reject = function(value, cutoff){
   }
 }
 
-accept_reject_conf_int = function(value, conf_int){
+#for critical value
+accept_reject_crit_val = function(value, conf_int){
   if(value > conf_int){
     print("reject null hypothesis")
   }else{
     print("fail to reject null hypothesis")
+  }
+}
+
+#for confidence interval
+accept_reject_conf_int = function(confidence_interval){
+  
+  if (0 > confidence_interval[1] && value < confidence_interval[2]){
+    print("in interval: fail to reject null hypothesis")
+  }else{
+    print("not in interval: reject null hypothesis")
   }
 }
 
@@ -71,4 +82,17 @@ sig_level = 0.05
 critical_value = qnorm_or_qstat(deg_freedom, sig_level)
 
 #then run it through again
-accept_reject_conf_int(t_stat, critical_value)
+accept_reject_crit_val(t_stat, critical_value)
+
+#let's say that we have this linear model
+linear_model = lm(log(rd)~log(sales),data=rdchem)
+
+#Our hypotheses:
+#H0:ß1=0
+#H1:ß1 is non zero.
+
+#we define the confidence interval at 90%
+confidence_interval = confint(lm(log(rd)~log(sales),data=rdchem),parm="log(sales)",level=0.9)
+
+#run it through accept reject
+accept_reject_conf_int(confidence_interval)
