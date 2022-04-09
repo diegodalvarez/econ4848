@@ -10,6 +10,7 @@ data = data.frame(gpa1$hsGPA, gpa1$ACT, gpa1$skipped)
 #then we want to find the correlation matrix
 corr_matrix = data.frame(cor(data))
 
+#this checks that all of the values in the correlation matrix are less than some level
 correlation_check = function(corr_matrix, threshold_amount){
   
   #the threshold amount is what we want to check at
