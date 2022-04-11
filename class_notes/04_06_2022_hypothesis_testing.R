@@ -10,11 +10,33 @@ reject_fail = function(value, cutoff){
 }
 
 #for critical value
-reject_fail_crit_val = function(value, conf_int){
-  if(value > conf_int){
-    print("reject null hypothesis")
-  }else{
-    print("fail to reject null hypothesis")
+reject_fail_crit_value = function(value, crit_value, tail){
+  
+  if (tail == "left"){
+    
+    print("using left tail")
+    if(value < crit_value){
+      print("reject the null hypothesis")
+    }else{
+      print("fail to reject the null hypothesis")
+    }
+    
+  }
+  if(tail == "right"){
+    if(value > crit_value){
+      print("reject the null hypothesis")
+    }else{
+      print("fail to reject the null hypothesis")
+    }
+    
+  }
+  if(tail == "both"){
+    print("both tails")
+    if(value < abs(crit_value)){
+      print("reject the null hypothesis")
+    }else{
+      print("fail to reject the null hypothesis")
+    }
   }
 }
 
@@ -45,19 +67,37 @@ p_value = 0.5 * p_value
 reject_fail(p_value, 0.01)
 
 #we need to check the degrees of freedom to find if we should use qnorm or qstat
-qnorm_or_qstat = function(deg_freedom, signficance_level){
+qnorm_or_qstat = function(deg_freedom, alpha, tail){
   
   if (deg_freedom > 120){
     
-    print("using qnorm")
-    critical_value = qnorm(1- signficance_level)
+    print("using normal distribution")
     
-  }else{
+    if(tail == "one"){
+      print("using one tail")
+      critical_value = qnorm(1 - alpha)
+    }
     
-    print("using qstat")
-    critical_value = qstat(1 - signficance_level)
+    if (tail == "two"){
+      print("using two tail")
+      critical_value = qnorm(1 - (alpha / 2))
+    }
   }
-  return(critical_value)
+  
+  else{
+    
+    print("using t-distribution")
+    
+    if(tail == "one"){
+      print("using one tail")
+      critical_value = qt(1 - alpha, deg_freedom)
+    }
+    
+    else{
+      print("using two tail")
+      critical_value = qt(1 - (alpha / 2), deg_freedom)
+    }
+  }
 }
 
 #let's get the degrees of freedom
