@@ -1,7 +1,7 @@
 require("wooldridge")
 
 #define accept to reject functions
-accept_reject = function(value, cutoff){
+reject_fail = function(value, cutoff){
   if(value < cutoff){
     print("reject null hypothesis")
   }else{
@@ -10,7 +10,7 @@ accept_reject = function(value, cutoff){
 }
 
 #for critical value
-accept_reject_crit_val = function(value, conf_int){
+reject_fail_crit_val = function(value, conf_int){
   if(value > conf_int){
     print("reject null hypothesis")
   }else{
@@ -19,7 +19,7 @@ accept_reject_crit_val = function(value, conf_int){
 }
 
 #for confidence interval
-accept_reject_conf_int = function(confidence_interval){
+reject_fail_conf_int = function(confidence_interval){
   
   if (0 > confidence_interval[1] && value < confidence_interval[2]){
     print("in interval: fail to reject null hypothesis")
@@ -42,7 +42,7 @@ p_value = summary(linear_model)$coef[3,4]
 p_value = 0.5 * p_value
 
 #run through accept reject
-accept_reject(p_value, 0.01)
+reject_fail(p_value, 0.01)
 
 #we need to check the degrees of freedom to find if we should use qnorm or qstat
 qnorm_or_qstat = function(deg_freedom, signficance_level){
@@ -73,7 +73,7 @@ critical_value = qnorm_or_qstat(deg_freedom, sig_level)
 t_stat = summary(linear_model)$coef[3,3]
 
 #run through the accept or reject
-accept_reject_conf_int(t_stat, critical_value)
+reject_fail_conf_int(t_stat, critical_value)
 
 #let's try it at a 0.05 sig_level
 sig_level = 0.05
@@ -82,7 +82,7 @@ sig_level = 0.05
 critical_value = qnorm_or_qstat(deg_freedom, sig_level)
 
 #then run it through again
-accept_reject_crit_val(t_stat, critical_value)
+reject_fail_crit_val(t_stat, critical_value)
 
 #let's say that we have this linear model
 linear_model = lm(log(rd)~log(sales),data=rdchem)
@@ -95,4 +95,4 @@ linear_model = lm(log(rd)~log(sales),data=rdchem)
 confidence_interval = confint(lm(log(rd)~log(sales),data=rdchem),parm="log(sales)",level=0.9)
 
 #run it through accept reject
-accept_reject_conf_int(confidence_interval)
+reject_fail_conf_int(confidence_interval)
