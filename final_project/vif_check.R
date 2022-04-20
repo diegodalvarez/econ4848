@@ -1,3 +1,9 @@
+'''
+this file is meant to double check the VIF function that is built in with the CAR packages. The CAR package does not work within Google Colab. Within
+the notebook the original VIF function is manually brought in from the CRAN GitHub repository. Although both values (ran within this file) and ran 
+within the car function they are still the same output.
+'''
+
 require("car")
 
 #load the data
